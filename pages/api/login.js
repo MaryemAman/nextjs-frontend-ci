@@ -1,27 +1,36 @@
 import withSession from '@/lib/session'
 import axios from 'axios';
 
-
 export default withSession(async (req, res) => {
-    const {username, password} = await req.body
-    const loginUrl = process.env.BACKEND_API_HOST+'/api/login';
+    // const { username, password } = await req.body;
+    const { username, password } = req.body;
+    // const loginUrl = process.env.BACKEND_API_HOST + '/api/login';
+    const isServer = typeof window === 'undefined';
+    const baseUrl = isServer
+        ? process.env.API_URL
+        : process.env.NEXT_PUBLIC_API_URL;
 
+    const loginUrl = `${baseUrl}/api/login`;
+
+    console.log("Attempting login with:", username, "at", loginUrl);
 
     try {
-        const response = await axios.post(loginUrl, {username: username, password: password});
+        const response = await axios.post(loginUrl, { username, password });
+        console.log("Backend response:", response.data);
 
-        if (response.status === 200) {
-            const {user, api_token} = response.data;
+        if (response.status === 200 && response.data.logged_in) {
+            const { user, token } = response.data;
+            
 
-            req.session.set('user', user)
-            req.session.set('api_token', api_token)
-            await req.session.save()
-            return res.json({logged_in: true});
+            req.session.set('user', user);
+            req.session.set('api_token', token);
+            await req.session.save();
+            return res.json({ logged_in: true });
         }
 
-        const status = response.data.message;
+        const status = response.data.status;
         const errors = response.data.errors;
-        return res.json({status, logged_in: false, errors});
+        return res.json({ status, logged_in: false, errors });
 
     } catch (err) {
         let status = 'Something went wrong';
@@ -29,11 +38,10 @@ export default withSession(async (req, res) => {
 
         console.log(err);
         if (err.response) {
-            status = err.response.data.message;
+            status = err.response.data.status || err.response.data.message;
             errors = err.response.data.errors;
         }
-        return res.json({logged_in: false, status, errors: errors});
+        console.log("Login error:", status, errors);
+        return res.json({ logged_in: false, status, errors });
     }
-
-
-})
+});

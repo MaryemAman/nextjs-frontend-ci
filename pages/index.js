@@ -1,8 +1,7 @@
 import Link from "next/link";
-import {useState} from "react";
+import { useState } from "react";
 import axios from "axios";
 import Head from "next/head";
-
 
 export default function Index() {
     const [username, setUsername] = useState('');
@@ -12,16 +11,16 @@ export default function Index() {
     const [generalError, setGeneralError] = useState(null);
     const [isRedirecting, setIsRedirecting] = useState(false);
 
-    const handleLogin = async () => {
+    const handleLogin = async (e) => {
+        e.preventDefault(); // Prevent default form submission
         setIsAuthenticating(true);
         setGeneralError(null);
         setErrors({});
 
-
         try {
-            const response = await axios.post("/api/login", {username, password});
+            const response = await axios.post("/api/login", { username, password });
             if (response.status === 200) {
-                const {logged_in} = response.data;
+                const { logged_in } = response.data;
 
                 if (logged_in) {
                     setIsRedirecting(true);
@@ -48,8 +47,7 @@ export default function Index() {
             <Head>
                 <title>Login</title>
             </Head>
-            <div
-                className="flex w-full items-center justify-center pt-20 ">
+            <div className="flex w-full items-center justify-center pt-20 ">
                 <div className="min-w-[25vw]">
                     <div className="text-center">
                         <div className="text-blue-500 text-8xl  py-2 px-4">
@@ -62,7 +60,7 @@ export default function Index() {
                             Strengthening Systems.
                         </p>
                     </div>
-                    <form action="" className="mt-10">
+                    <form className="mt-10" onSubmit={handleLogin}>
                         {
                             isRedirecting &&
                             <div className="bg-green-700 flex gap-2 text-white px-4 py-4 rounded-lg text-sm">
@@ -103,7 +101,7 @@ export default function Index() {
                         </div>
                         <button
                             className="btn btn-primary w-full text-white mb-2"
-                            onClick={handleLogin}
+                            type="submit"
                             disabled={isRedirecting || isAuthenticating}>
                             {
                                 isAuthenticating ? <span className="loading loading-spinner loading-sm"></span> : ''
