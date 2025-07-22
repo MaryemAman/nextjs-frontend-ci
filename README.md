@@ -2,6 +2,10 @@
 
 This is the frontend of the full-stack CI/CD project built with **Next.js**. It includes Docker support and CI/CD automation with **Jenkins** and **GitHub Actions**.
 
+<img width="1091" height="872" alt="image" src="https://github.com/user-attachments/assets/c85d721a-5696-4b00-94bb-7365d6c3cf4b" />
+
+
+
 ## 📁 Project Structure
 
 <img width="452" height="1128" alt="image" src="https://github.com/user-attachments/assets/8b3d6b29-8b97-4b9f-b168-d968353d855b" />
