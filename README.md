@@ -34,6 +34,7 @@ Then run the following in the root folder:
 ```bash
 docker-compose up --build
 ```
+This will start the frontend, backend, database and phpMyAdmin
 
 # 🐳 Docker Usage
 
