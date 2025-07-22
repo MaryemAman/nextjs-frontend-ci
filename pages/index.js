@@ -54,7 +54,7 @@ export default function Index() {
                             Maryem
                         </div>
                         <p className="text-center text-gray-900 font-light">
-                            Maryem System
+                            Maryem's System
                         </p>
                         <p className="text-sm text-gray-500 my-2">
                             Strengthening Systems.
