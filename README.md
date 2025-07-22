@@ -24,6 +24,17 @@ npm run dev
 ```
 Visit: http://localhost:3000
 
+# ⚠️ Prerequisites
+Before running the project, make sure:
+
+🐳 Docker Desktop is running
+
+Then run the following in the root folder:
+
+```bash
+docker-compose up --build
+```
+
 # 🐳 Docker Usage
 
 Build and run manually:
